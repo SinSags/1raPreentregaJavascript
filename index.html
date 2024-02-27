@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Divisas ||USD/ARS</title>
+    <title>Convertidor De Divisas</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <script src="./index.js">//no recomendable realizar esto </script>
+    <div class="container">
+        <div class="divisa">
+            <input type="number" id="cantidad-1" value="1" placeholder="0">
+            <select id="divisa-1">
+                <option value="ARS">ARS</option>
+                <option value="USD" selected>USD</option>
+            </select>
+        </div>
+
+        <div class="tipo-de-cambio-container">
+            <div class="tipo" id="tipo"></div>
+            <button class="btn" id="cambio">Cambiar</button>
+        </div>
+        <div class="divisa">
+            <input type="number" id="cantidad-2"  placeholder="0">
+            <select id="divisa-2">
+                <option value="ARS" selected>ARS</option>
+                <option value="USD">USD</option>
+            </select>
+        </div>
+    </div>
+    <script src="./index.js"></script>
 </body>
 </html>

@@ -1,34 +1,40 @@
-// Función para convertir de dólar a peso argentino//
-function convertirDolarAPeso(dolar) {
-    // Tipo de cambio actual (se actualiza este valor según el tipo de cambio real)
-    const tipoCambio = 846;  // Ejemplo: 1 dólar oficial = 846 pesos argentinos
+// constantes y getElementById
 
-    // Realizar la conversión//
-    const pesoArgentino = dolar * tipoCambio;10
-    return pesoArgentino;
+const divisaElemento_1 = document.getElementById('divisa-1');
+const divisaElemento_2 = document.getElementById('divisa-2');
+const cantidadElemento_1 = document.getElementById('cantidad-1');
+const cantidadElemento_2 = document.getElementById('cantidad-2');
+
+const tipoElemento = document.getElementById('tipo');
+const cambio = document.getElementById('cambio');
+
+// API link
+
+function calculate(){
+    const divisa_1 = divisaElemento_1.value;
+    const divisa_2 = divisaElemento_2.value;
+
+    fetch(`https://api.exchangerate-api.com/v4/latest/${divisa_1}`)
+    .then(res => res.json())
+    .then(data => {
+        const rate = data.rates[divisa_2];
+        tipoElemento.innerText = `1 ${divisa_1} = ${rate} ${divisa_2}`;
+        cantidadElemento_2.value = (cantidadElemento_1.value * rate).toFixed(2);
+    });
 }
 
-//Menu principal de bienvenida//
+// lista Eventos
 
-let respuesta = prompt("Bienvenido!😁😁😁 Desea utilizar este convertidor de divisas? esc para salir")
+divisaElemento_1.addEventListener('cambio', calculate);
+divisaElemento_2.addEventListener('cambio', calculate);
+cantidadElemento_1.addEventListener('input', calculate);
+cantidadElemento_2.addEventListener('input', calculate);
 
-while(respuesta !== "esc"){
+cambio.addEventListener('click', function(){
+    const temp = divisaElemento_1.value;
+    divisaElemento_1.value = divisaElemento_2.value;
+    divisaElemento_2.value = temp;
+    calculate();
+});
 
-// Obtener la cantidad de dólares del usuario//
-const cantidadDolares = parseInt(prompt("Ingresa la cantidad de dólares a convertir🤑🤑🤑:"));
-
-// Validar la entrada del usuario
-if (!isNaN(cantidadDolares) && cantidadDolares >= 0) {
-    // Calcular la conversión
-    const resultado = convertirDolarAPeso(cantidadDolares);
-
-    // Mostrar el resultado
-    alert(`${cantidadDolares} dólares son equivalentes a ${resultado} pesos argentinos😎.`);
-} else {
-    // Mensaje de error si la entrada no es válida
-    alert("Por favor, ingresa una cantidad válida de dólares.");
-}
-
-
-respuesta= prompt("Desea utilizar nuevamente el conversor de divisas? esc para salir")
-}
+calculate();
