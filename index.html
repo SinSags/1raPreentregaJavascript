@@ -4,30 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convertidor De Divisas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div class="container">
-        <div class="divisa">
-            <input type="number" id="cantidad-1" value="1" placeholder="0">
-            <select id="divisa-1">
-                <option value="ARS">ARS</option>
-                <option value="USD" selected>USD</option>
-            </select>
-        </div>
-
-        <div class="tipo-de-cambio-container">
-            <div class="tipo" id="tipo"></div>
-            <button class="btn" id="cambio">Cambiar</button>
-        </div>
-        <div class="divisa">
-            <input type="number" id="cantidad-2"  placeholder="0">
-            <select id="divisa-2">
-                <option value="ARS" selected>ARS</option>
-                <option value="USD">USD</option>
-            </select>
-        </div>
+        <h2>Convertidor De Divisas</h2>
+        <form>
+            <div class="cantidad">
+                <p>cantidad</p>
+                <input type="text" value="1">
+            </div>
+            <div class="convert-box">
+                <div class="desde">
+                    <p>desde</p>
+                    <div class="entrada">
+                        <img src="https://flagcdn.com/48x36/us.png">
+                        <select></select>
+                    </div>
+                </div>
+                <div class="reversa"><i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="hasta">
+                    <p>hasta</p>
+                    <div class="entrada">
+                        <img src="https://flagcdn.com/48x36/ar.png">
+                        <select></select>
+                    </div>
+                </div>
+                <div class="resultado">Obteniendo Tipo de Cambio...</div>
+                <button>Obtener tipo de cambio</button>
+            </div>
+        </form>
     </div>
+
+    <script src="./paises.js"></script>
     <script src="./index.js"></script>
 </body>
 </html>

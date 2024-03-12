@@ -1,40 +1,54 @@
-// constantes y getElementById
+const desdeDiv = document.querySelector(".desde select");
+const hastaDiv = document.querySelector(".hasta select");
+const obtenerBtn = document.querySelector("form button");
+const cambioIcon = document.querySelector("form .reversa");
+const cantidad = document.querySelector("form input");
+const cambioTipoTxt = document.querySelector("form .resultado");
 
-const divisaElemento_1 = document.getElementById('divisa-1');
-const divisaElemento_2 = document.getElementById('divisa-2');
-const cantidadElemento_1 = document.getElementById('cantidad-1');
-const cantidadElemento_2 = document.getElementById('cantidad-2');
+// Event listener for currency dropdowns (select)
 
-const tipoElemento = document.getElementById('tipo');
-const cambio = document.getElementById('cambio');
-
-// API link
-
-function calculate(){
-    const divisa_1 = divisaElemento_1.value;
-    const divisa_2 = divisaElemento_2.value;
-
-    fetch(`https://api.exchangerate-api.com/v4/latest/${divisa_1}`)
-    .then(res => res.json())
-    .then(data => {
-        const rate = data.rates[divisa_2];
-        tipoElemento.innerText = `1 ${divisa_1} = ${rate} ${divisa_2}`;
-        cantidadElemento_2.value = (cantidadElemento_1.value * rate).toFixed(2);
+[desdeDiv, hastaDiv].forEach((select, i) => {
+    for (let curCode in Lista_Paises) {
+        const selected = (i === 0 && curCode === "USD") || (i === 1 && curCode === "GBP") ? "selected" : "";
+        select.insertAdjacentHTML("beforeend", `<option value="${curCode}" ${selected}>${curCode}</option>`);
+    }
+    select.addEventListener("change", () => {
+        const codigo = select.value;
+        const imgTag = select.parentElement.querySelector("img");
+        imgTag.src = `https://flagcdn.com/48x36/${Lista_Paises[codigo].toLowerCase()}.png`;
     });
-}
-
-// lista Eventos
-
-divisaElemento_1.addEventListener('cambio', calculate);
-divisaElemento_2.addEventListener('cambio', calculate);
-cantidadElemento_1.addEventListener('input', calculate);
-cantidadElemento_2.addEventListener('input', calculate);
-
-cambio.addEventListener('click', function(){
-    const temp = divisaElemento_1.value;
-    divisaElemento_1.value = divisaElemento_2.value;
-    divisaElemento_2.value = temp;
-    calculate();
 });
 
-calculate();
+// Function to get exchange rate from api
+
+async function getExchangeRate() {
+    const cantidadVal = cantidad.value || 1;
+    cambioTipoTxt.innerText = "Getting exchange rate...";
+    try {
+        const response = await fetch(`https://v6.exchangerate-api.com/v6/e1dc626a47786c7de162c0b5/latest/${desdeDiv.value}`);
+        const resultado = await response.json();
+        const tipoDeCambio = resultado.conversion_rates[hastaDiv.value];
+        const totalTipoDeCambio = (cantidadVal * tipoDeCambio).toFixed(2);
+        cambioTipoTxt.innerText = `${cantidadVal} ${desdeDiv.value} = ${totalTipoDeCambio} ${hastaDiv.value}`;
+    } catch (error) {
+        cambioTipoTxt.innerText = "Something went wrong...";
+    }
+}
+
+// Event listeners for button and exchange icon click
+
+window.addEventListener("load", getExchangeRate);
+obtenerBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    getExchangeRate();
+});
+
+cambioIcon.addEventListener("click", () => {
+    [desdeDiv.value, hastaDiv.value] = [hastaDiv.value, desdeDiv.value];
+    [desdeDiv, hastaDiv].forEach((select) => {
+        const codigo = select.value;
+        const imgTag = select.parentElement.querySelector("img");
+        imgTag.src = `https://flagcdn.com/48x36/${Lista_Paises[codigo].toLowerCase()}.png`;
+    });
+    getExchangeRate();
+});
