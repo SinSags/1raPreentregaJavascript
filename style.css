@@ -156,7 +156,7 @@ body::after {
 .container form button {
   width: 100%;
   height: 42px;
-  color: #fff;
+  color: #5a33b6;
   background: #20232c;
   font-size: 1rem;
   cursor: pointer;
@@ -165,5 +165,5 @@ body::after {
 }
 
 .container form button:hover {
-  background: #675afe;
+  background: #ffffff;
 }
