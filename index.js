@@ -5,7 +5,7 @@ const cambioIcon = document.querySelector("form .reversa");
 const cantidad = document.querySelector("form input");
 const cambioTipoTxt = document.querySelector("form .resultado");
 
-// Event listener for currency dropdowns (select)
+// lista completa de las divisas(select)
 
 [desdeDiv, hastaDiv].forEach((select, i) => {
     for (let curCode in Lista_Paises) {
@@ -19,7 +19,7 @@ const cambioTipoTxt = document.querySelector("form .resultado");
     });
 });
 
-// Function to get exchange rate from api
+// funcion para sacar los datos de intercambio de la api(json)
 
 async function getExchangeRate() {
     const cantidadVal = cantidad.value || 1;
@@ -35,7 +35,7 @@ async function getExchangeRate() {
     }
 }
 
-// Event listeners for button and exchange icon click
+// lista para errores del boton de cambio y iconos
 
 window.addEventListener("load", getExchangeRate);
 obtenerBtn.addEventListener("click", (e) => {
